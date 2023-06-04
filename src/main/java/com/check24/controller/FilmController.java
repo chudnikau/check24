@@ -1,15 +1,13 @@
 package com.check24.controller;
 
-import com.check24.domain.Film;
 import com.check24.exceptions.FilmAbsentException;
 import com.check24.service.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
+@Controller
 @RequestMapping("/films")
 public class FilmController {
 
@@ -20,22 +18,18 @@ public class FilmController {
         this.fileService = fileService;
     }
 
-    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public List<Film> allFilms() {
-        return fileService.allFilms();
+    @GetMapping(value = "/all")
+    public String allFilms(Model model) {
+        model.addAttribute("filmsModel",
+                fileService.allFilms());
+        return "films";
     }
 
-    @GetMapping(value = "/search/{filmName}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public Film filmsByName(@PathVariable String filmName) {
-        return fileService.searchByName(filmName);
-    }
-
-    @PutMapping(value = "/raite/{id}/{ratingValue}")
-    public String filmsByName(@PathVariable Long id, @PathVariable Integer ratingValue) throws FilmAbsentException {
-        fileService.putRating(id, ratingValue);
-        return "/";
+    @GetMapping(value = "/rate/{filmId}/{ratingValue}")
+    public String rateFilm(@PathVariable Long filmId,
+                           @PathVariable Integer ratingValue) throws FilmAbsentException {
+        fileService.putRating(filmId, ratingValue);
+        return "redirect:/films/all";
     }
 
 }

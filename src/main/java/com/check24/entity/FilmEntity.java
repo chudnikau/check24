@@ -11,13 +11,16 @@ public class FilmEntity {
     public FilmEntity() {
 
     }
-
-    public FilmEntity(String filmName, Double averageRating, Genres genre, String director, Integer voitedCount) {
+    public FilmEntity(String filmName,
+                      Double averageRating,
+                      Genres genre,
+                      String director,
+                      Integer voitedCount) {
         this.filmName = filmName;
         this.averageRating = averageRating;
         this.genre = genre;
         this.director = director;
-        this.voitedCount = voitedCount;
+        this.votedCount = voitedCount;
     }
 
     @Id
@@ -28,11 +31,12 @@ public class FilmEntity {
 
     private Double averageRating;
 
+    @Enumerated(EnumType.STRING)
     private Genres genre;
 
     private String director;
 
-    private Integer voitedCount;
+    private Integer votedCount;
 
     public Long getId() {
         return id;
@@ -74,11 +78,11 @@ public class FilmEntity {
         this.director = director;
     }
 
-    public Integer getVoitedCount() {
-        return voitedCount;
+    public Integer getVotedCount() {
+        return votedCount;
     }
 
-    public void setVoitedCount(Integer voitedCount) {
-        this.voitedCount = voitedCount;
+    public void setVotedCount(Integer votedCount) {
+        this.votedCount = votedCount;
     }
 }

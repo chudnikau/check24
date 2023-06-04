@@ -4,19 +4,27 @@ import com.check24.enums.Genres;
 
 public class Film {
 
+    private Long id;
+
     private String filmName;
     private Double averageRating;
     private Genres genre;
     private String director;
 
-    private Integer voitedCount;
+    private Integer votedCount;
 
-    public Film(String filName, Double averageRating, Genres genre, String director, Integer voitedCount) {
+    public Film(Long id,
+                String filName,
+                Double averageRating,
+                Genres genre,
+                String director,
+                Integer votedCount) {
+        this.id = id;
         this.filmName = filName;
         this.averageRating = averageRating;
         this.genre = genre;
         this.director = director;
-        this.voitedCount = voitedCount;
+        this.votedCount = votedCount;
     }
 
     public String getFilmName() {
@@ -51,11 +59,19 @@ public class Film {
         this.director = director;
     }
 
-    public Integer getVoitedCount() {
-        return voitedCount;
+    public Integer getVotedCount() {
+        return votedCount;
     }
 
-    public void setVoitedCount(Integer voitedCount) {
-        this.voitedCount = voitedCount;
+    public void setVotedCount(Integer votedCount) {
+        this.votedCount = votedCount;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

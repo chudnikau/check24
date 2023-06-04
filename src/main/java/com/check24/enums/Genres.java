@@ -5,5 +5,7 @@ public enum Genres {
     Comedy,
     Drama,
     Romance,
-    Thriller
+    Thriller,
+    Fantasy,
+    Crime
 }

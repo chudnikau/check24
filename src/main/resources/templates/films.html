@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+<h1>Films</h1>
+<table>
+    <tr>
+        <td><label>Film name</label></td>
+        <td><label>Genre</label></td>
+        <td><label>Average rate</label></td>
+    </tr>
+    <tr th:each="film: ${filmsModel}">
+        <td th:text="${film.id}"/>
+        <td th:text="${film.filmName}"/>
+        <td th:text="${film.genre}"/>
+        <td th:text="${film.averageRating}"/>
+        <td th:text="${film.votedCount}"/>
+        <td th:each="rate : ${#numbers.sequence(1, 5)}">
+            <a th:href="@{'/films/rate/' + ${film.id} + '/' + ${rate}}">
+                <span th:text="'Vote ' + ${rate}"/>
+            </a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
