@@ -6,6 +6,7 @@ import com.check24.enums.Genres;
 import com.check24.exceptions.FilmAbsentException;
 import com.check24.repository.FilmRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,7 @@ public class FilmService {
         this.filmRepository = filmRepository;
     }
 
+    @Cacheable
     public List<Film> allFilms() {
         return filmRepository.findAllByOrderByIdAsc().stream()
                 .map(filmEntity -> new Film(
