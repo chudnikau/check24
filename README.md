@@ -14,6 +14,8 @@ To Clean and make new build "CHECK24" run the command
 gradle clean build
 ```
 
+![img.png](main.png)
+![img.png](users.png)
 ![img.png](films.png)
 
 
