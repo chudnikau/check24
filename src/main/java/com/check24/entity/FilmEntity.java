@@ -3,6 +3,9 @@ package com.check24.entity;
 import com.check24.enums.Genres;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 @Entity
 @Table(name = "films")
@@ -11,21 +14,32 @@ public class FilmEntity {
     public FilmEntity() {
 
     }
-    public FilmEntity(String filmName,
+
+    public FilmEntity(Set<UserEntity> userEntity,
+                      String filmName,
                       Double averageRating,
                       Genres genre,
                       String director,
-                      Integer voitedCount) {
+                      Integer votedCount) {
+        this.userEntity =
+                Optional.ofNullable(userEntity).orElse(new HashSet<>());
         this.filmName = filmName;
         this.averageRating = averageRating;
         this.genre = genre;
         this.director = director;
-        this.votedCount = voitedCount;
+        this.votedCount = votedCount;
     }
 
     @Id
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "film_rating",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "film_id", referencedColumnName = "id"))
+    private Set<UserEntity> userEntity = new HashSet<>();
 
     private String filmName;
 
@@ -84,5 +98,13 @@ public class FilmEntity {
 
     public void setVotedCount(Integer votedCount) {
         this.votedCount = votedCount;
+    }
+
+    public Set<UserEntity> getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(Set<UserEntity> userEntity) {
+        this.userEntity = userEntity;
     }
 }

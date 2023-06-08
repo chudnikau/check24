@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+<h1>Users</h1>
+<table>
+    <tr>
+        <td><label>id</label></td>
+        <td><label>name</label></td>
+    </tr>
+    <tr th:each="user: ${users}">
+        <form action="#" th:action="@{/login/login}" th:object="${currentUser}" method="post">
+            <input type="hidden" th:value="${user.userId}" name="userId"/>
+            <input type="hidden" th:value="${user.userName}" name="userName"/>
+            <td th:text="${user.userId}"></td>
+            <td th:text="${user.userName}"></td>
+            <td>
+                <input type="submit" value="Login">
+            </td>
+        </form>
+    </tr>
+</table>
+</body>
+</html>

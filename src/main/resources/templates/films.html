@@ -8,18 +8,19 @@
         <td><label>Genre</label></td>
         <td><label>Average rate</label></td>
     </tr>
-    <tr th:each="film: ${filmsModel}">
-        <td th:text="${film.id}"/>
-        <td th:text="${film.filmName}"/>
-        <td th:text="${film.genre}"/>
-        <td th:text="${film.averageRating}"/>
-        <td th:text="${film.votedCount}"/>
-        <td th:each="rate : ${#numbers.sequence(1, 5)}">
+    <tr th:each="film: ${films}">
+        <td th:text="${film.id}"></td>
+        <td th:text="${film.filmName}"></td>
+        <td th:text="${film.genre}"></td>
+        <td th:text="${film.averageRating}"></td>
+        <td th:text="${film.votedCount}"></td>
+        <td th:each="rate : ${#numbers.sequence(1, 5)}" th:if="${!film.userVoted}">
             <a th:href="@{'/films/rate/' + ${film.id} + '/' + ${rate}}">
-                <span th:text="'Vote ' + ${rate}"/>
+                <span th:text="'Vote ' + ${rate}"></span>
             </a>
         </td>
     </tr>
 </table>
+<a th:href="@{/login/logout}">Logout</a>
 </body>
 </html>
