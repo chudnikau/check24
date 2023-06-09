@@ -1,13 +1,13 @@
-package com.check24.config;
+package com.check24.service;
 
 import com.check24.domain.User;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
-@Configuration
-public class SingletonBeanConfig {
+@TestConfiguration
+public class SpringTestConfig {
 
     @Bean
     @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)

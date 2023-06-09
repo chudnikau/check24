@@ -85,18 +85,23 @@ public class FilmService {
     }
 
     @Transactional
-    public void putRating(Long userId, Long filmId, Integer ratingValue) {
+    public void putRating(Long filmId, Integer ratingValue) {
 
-        filmRepository.findById(filmId).ifPresent(
-                film -> userRepository.findById(userId).ifPresent(
-                        user -> {
-                            if (!isUserVoted(film, user.getId())) {
-                                saveUserVote(film, user, ratingValue);
+        if (isCurrentUserExist()) {
+            filmRepository.findById(filmId).ifPresent(
+                    film -> userRepository.findById(currUser.getUserId()).ifPresent(
+                            user -> {
+                                if (!isUserVoted(film, user.getId())) {
+                                    saveUserVote(film, user, ratingValue);
+                                }
                             }
-                        }
-                )
-        );
+                    )
+            );
+        }
+    }
 
+    private boolean isCurrentUserExist() {
+        return currUser != null && currUser.getUserId() > 0;
     }
 
     private void saveUserVote(FilmEntity film, UserEntity user, Integer ratingValue) {

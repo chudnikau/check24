@@ -1,5 +1,6 @@
 package com.check24.service;
 
+import com.check24.domain.User;
 import com.check24.entity.FilmEntity;
 import com.check24.entity.UserEntity;
 import com.check24.enums.Genres;
@@ -22,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest({"spring.main.allow-bean-definition-overriding=true"})
 public class FilmServiceTest {
 
     @Autowired
@@ -34,18 +35,19 @@ public class FilmServiceTest {
     @MockBean
     private UserRepository userRepository;
 
-    private UserEntity generalUserEntity;
-
-    private FilmEntity generalNotVotedUserFilmEntity;
+    @Autowired
+    private User currUser;
 
     private static final long FILM_ID = 1;
     private static final long USER_ID = 1;
 
     @Before
     public void setUp() {
-        generalUserEntity = new UserEntity(USER_ID, "Benedict");
+        login();
 
-        generalNotVotedUserFilmEntity = new FilmEntity(
+        UserEntity generalUserEntity = new UserEntity(USER_ID, "Benedict");
+
+        FilmEntity generalNotVotedUserFilmEntity = new FilmEntity(
                 new HashSet<>(),
                 "Mister bean",
                 0d,
@@ -69,10 +71,14 @@ public class FilmServiceTest {
         );
     }
 
+    private void login() {
+        currUser.setUserId(100L);
+    }
+
     @Test
     public void testPuttingRatting() throws FilmAbsentException, UserAdsentException {
 
-        filmService.putRating(USER_ID, FILM_ID, 1);
+        filmService.putRating(FILM_ID, 1);
 
         verify(filmRepository, atLeastOnce())
                 .findById(anyLong());
@@ -110,7 +116,7 @@ public class FilmServiceTest {
                 )
         );
 
-        filmService.putRating(100L, 200L, 5);
+        filmService.putRating(200L, 5);
         film.getUserEntity().add(user);
         verify(filmRepository, atLeastOnce()).save(film);
     }
@@ -149,7 +155,7 @@ public class FilmServiceTest {
         int newRating = 3;
         int newVotedCount = votedCount + 1;
 
-        filmService.putRating(100L, 200L, newRating);
+        filmService.putRating(200L, newRating);
 
         Integer expectedVotedCount = votedCount + 1;
         Double expectedAvrRating = (double) (1 + 2 + 3 + 4 + 5 + newRating) / newVotedCount;

@@ -34,7 +34,7 @@ public class FilmController {
     @GetMapping(value = "/rate/{filmId}/{ratingValue}")
     public String rateFilm(@PathVariable Long filmId,
                            @PathVariable Integer ratingValue) throws FilmAbsentException, UserAdsentException {
-        fileService.putRating(currUser.getUserId(), filmId, ratingValue);
+        fileService.putRating(filmId, ratingValue);
         return "redirect:/films/all";
     }
 
